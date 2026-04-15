@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>TechSnap</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
+    body {
+      width: 260px; padding: 20px 18px;
+      background: #0d0e11; color: #e8eaf0;
+      font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #f5a623;
+           animation: spin 1s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to { opacity: 0.2; } 0% { opacity: 1; } 50% { opacity: 0.2; } }
+    #status { color: #e8eaf0; }
+  </style>
+</head>
+<body>
+  <div class="dot"></div>
+  <span id="status">Apertura pannello…</span>
+  <script src="popup.js"></script>
+</body>
+</html>

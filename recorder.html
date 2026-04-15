@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>TechSnap</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+    :root {
+      --bg-deep:#0d0e11;--bg-panel:#16181d;--bg-card:#1e2128;--bg-input:#252830;
+      --border:#2e3240;--border-lit:#3d4255;--amber:#f5a623;--amber-dim:#c4821a;
+      --amber-glow:rgba(245,166,35,0.15);--red:#e05252;--red-glow:rgba(224,82,82,0.18);
+      --green:#52c97a;--green-glow:rgba(82,201,122,0.15);--blue:#4f8ef7;
+      --purple:#a78bfa;--text-pri:#ffffff;--text-sec:#e8edf7;--text-dim:#c2cbdd;
+      --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--radius:6px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{width:100%;background:var(--bg-deep);color:var(--text-pri);font-family:var(--sans);font-size:13px;line-height:1.5;overflow-x:hidden;border:1px solid var(--border)}
+    .header{display:flex;align-items:center;gap:10px;padding:12px 16px 10px;border-bottom:1px solid var(--border);background:var(--bg-panel);-webkit-app-region:drag;cursor:move}
+    .header *{-webkit-app-region:no-drag}
+    .logo{width:26px;height:26px;background:var(--amber);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .logo svg{width:14px;height:14px;fill:var(--bg-deep)}
+    .header-title{font-family:var(--mono);font-size:12px;font-weight:600}
+    .header-sub{font-size:10px;color:var(--text-dim);font-family:var(--mono)}
+    .rec-badge{margin-left:auto;display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text-dim);transition:color .3s}
+    .rec-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--text-dim);transition:background .3s}
+    .rec-badge.active{color:var(--red)}.rec-badge.active .dot{background:var(--red);box-shadow:0 0 6px var(--red);animation:blink 1s infinite}
+    .rec-badge.paused{color:var(--amber)}.rec-badge.paused .dot{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    .section{padding:10px 16px;border-bottom:1px solid var(--border)}
+    .section:last-child{border-bottom:none}
+    .section-label{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px}
+    .privacy-note{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--amber-dim);border-radius:var(--radius);padding:8px 10px;color:var(--text-sec);font-size:11px;line-height:1.45}
+    .privacy-note strong{color:var(--text-pri)}
+    .privacy-note code{font-family:var(--mono);font-size:10px;color:var(--amber)}
+    .info-row{display:flex;align-items:flex-start;gap:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:5px 10px;margin-bottom:4px}
+    .info-row:last-child{margin-bottom:0}
+    .info-key{font-family:var(--mono);font-size:10px;color:var(--text-dim);min-width:36px;padding-top:1px;flex-shrink:0}
+    .info-val{font-family:var(--mono);font-size:11px;color:var(--amber);word-break:break-all;line-height:1.4}
+    .timer-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .timer{font-family:var(--mono);font-size:30px;font-weight:600;color:var(--text-pri);letter-spacing:.04em;transition:color .3s}
+    .timer.recording{color:var(--red)}.timer.paused{color:var(--amber)}
+    .sub-counter{font-family:var(--mono);font-size:11px;color:var(--text-sec);text-align:right;line-height:1.6}
+    .sub-counter span{color:var(--amber);font-weight:600;display:block}
+    .controls{display:flex;gap:7px}
+    .btn{flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-card);color:var(--text-sec);font-family:var(--mono);font-size:11px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s ease;white-space:nowrap}
+    .btn:hover:not(:disabled){border-color:var(--border-lit);color:var(--text-pri);background:var(--bg-input)}
+    .btn:disabled{opacity:.35;cursor:not-allowed}
+    .btn svg{width:12px;height:12px;flex-shrink:0}
+    .btn-start{background:var(--amber-glow);border-color:var(--amber-dim);color:var(--amber)}
+    .btn-start:hover:not(:disabled){background:rgba(245,166,35,.25);border-color:var(--amber);box-shadow:0 0 10px var(--amber-glow)}
+    .btn-stop{background:var(--red-glow);border-color:#7a3030;color:var(--red)}
+    .btn-stop:hover:not(:disabled){background:rgba(224,82,82,.28);border-color:var(--red);box-shadow:0 0 10px var(--red-glow)}
+    .btn-pause{color:var(--amber)}.btn-pause:hover:not(:disabled){border-color:var(--amber-dim)}
+    /* lang bar */
+    .lang-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+    .lang-label{font-family:var(--mono);font-size:10px;color:var(--text-dim);flex-shrink:0}
+    .lang-tab{padding:3px 9px;border:1px solid var(--border);border-radius:20px;background:var(--bg-card);color:var(--text-sec);font-family:var(--mono);font-size:10px;font-weight:500;cursor:pointer;transition:all .15s}
+    .lang-tab:hover{border-color:var(--border-lit);color:var(--text-pri)}
+    .lang-tab.active{background:var(--amber-glow);border-color:var(--amber-dim);color:var(--amber)}
+    .btn-add-lang{padding:3px 8px;border:1px dashed var(--border-lit);border-radius:20px;background:none;color:var(--text-dim);font-family:var(--mono);font-size:10px;cursor:pointer;transition:all .15s}
+    .btn-add-lang:hover{color:var(--amber);border-color:var(--amber-dim)}
+    /* mode switch */
+    .mode-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .mode-switch{display:flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .mode-btn{padding:5px 10px;background:var(--bg-card);color:var(--text-dim);font-family:var(--mono);font-size:10px;font-weight:500;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s}
+    .mode-btn+.mode-btn{border-left:1px solid var(--border)}
+    .mode-btn.active{background:var(--bg-input);color:var(--text-pri)}
+    .mode-btn.active.keyboard{color:var(--blue)}.mode-btn.active.voice{color:var(--purple)}
+    /* keyboard mode */
+    textarea#subtitleText{width:100%;height:58px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-pri);font-family:var(--sans);font-size:13px;padding:7px 12px;resize:none;line-height:1.5;transition:border-color .15s}
+    textarea#subtitleText:focus{outline:none;border-color:var(--amber-dim);box-shadow:0 0 0 2px var(--amber-glow)}
+    textarea#subtitleText::placeholder{color:var(--text-dim)}
+    .sub-kbd-actions{display:flex;gap:6px;align-items:center;margin-top:6px}
+    .btn-add-sub{flex:1;background:var(--green-glow);border-color:#2a5c3a;color:var(--green)}
+    .btn-add-sub:hover:not(:disabled){background:rgba(82,201,122,.25);border-color:var(--green);box-shadow:0 0 8px var(--green-glow)}
+    .shortcut-hint{font-family:var(--mono);font-size:10px;color:var(--text-dim);white-space:nowrap}
+    kbd{background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:1px 4px;font-family:var(--mono);font-size:10px;color:var(--text-sec)}
+    /* bottone "Segna Inizio" — modalità tastiera */
+    .btn-mark-start{
+      flex:1;padding:8px 4px;border:1px solid var(--border-lit);border-radius:var(--radius);
+      background:var(--bg-card);color:var(--text-sec);font-family:var(--mono);font-size:11px;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;
+      transition:all .15s;
+    }
+    .btn-mark-start:hover:not(:disabled){border-color:var(--amber-dim);color:var(--amber)}
+    .btn-mark-start:disabled{opacity:.35;cursor:not-allowed}
+    /* stato attivo: marker segnato, mostra il timestamp in verde */
+    .btn-mark-start.marker-active{
+      background:var(--green-glow);border-color:#2a5c3a;color:var(--green);
+      animation:marker-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes marker-pulse{0%,100%{box-shadow:0 0 0 0 rgba(82,201,122,.4)}50%{box-shadow:0 0 0 3px rgba(82,201,122,0)}}
+    /* voice mode */
+    .voice-status-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;min-height:48px;display:flex;flex-direction:column;gap:3px;transition:border-color .2s,box-shadow .2s}
+    .voice-status-box.listening{border-color:var(--purple);box-shadow:0 0 0 2px rgba(167,139,250,.12)}
+    .voice-interim{font-size:12px;color:var(--text-dim);font-style:italic;line-height:1.4}
+    .voice-final{font-size:12px;color:var(--text-sec);line-height:1.4}
+    .voice-hint{font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:5px}
+    .voice-controls{display:flex;gap:6px;margin-top:6px}
+    .btn-voice-toggle{flex:1;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-card);color:var(--text-sec);font-family:var(--mono);font-size:11px;cursor:pointer;padding:8px 4px;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+    .btn-voice-toggle:disabled{opacity:.35;cursor:not-allowed}
+    .btn-voice-toggle.listening{background:rgba(167,139,250,.1);border-color:var(--purple);color:var(--purple);animation:pulse 1.5s infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(167,139,250,.4)}50%{box-shadow:0 0 0 4px rgba(167,139,250,0)}}
+    .btn-voice-add{flex:1;background:var(--green-glow);border:1px solid #2a5c3a;border-radius:var(--radius);color:var(--green);font-family:var(--mono);font-size:11px;cursor:pointer;padding:8px 4px;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+    .btn-voice-add:hover:not(:disabled){background:rgba(82,201,122,.25);border-color:var(--green)}
+    .btn-voice-add:disabled{opacity:.35;cursor:not-allowed}
+    /* subtitle list */
+    .sub-list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+    .sub-lang-filter{display:flex;gap:4px;flex-wrap:wrap}
+    .sub-lang-pill{padding:2px 7px;border-radius:20px;border:1px solid var(--border);background:var(--bg-card);font-family:var(--mono);font-size:9px;color:var(--text-dim);cursor:pointer;transition:all .12s}
+    .sub-lang-pill.active{border-color:var(--blue);color:var(--blue);background:rgba(79,142,247,.1)}
+    .sub-list-wrap{max-height:105px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-card)}
+    .sub-list-wrap::-webkit-scrollbar{width:3px}
+    .sub-list-wrap::-webkit-scrollbar-thumb{background:var(--border-lit);border-radius:3px}
+    .sub-empty{padding:14px;text-align:center;color:var(--text-dim);font-family:var(--mono);font-size:11px}
+    .sub-item{display:flex;align-items:flex-start;gap:6px;padding:5px 10px;border-bottom:1px solid var(--border);transition:background .1s}
+    .sub-item:last-child{border-bottom:none}
+    .sub-item:hover{background:var(--bg-input)}
+    .sub-lang-badge{font-family:var(--mono);font-size:9px;color:var(--text-dim);background:var(--bg-input);border:1px solid var(--border);border-radius:3px;padding:1px 4px;flex-shrink:0;margin-top:2px}
+    .sub-time{font-family:var(--mono);font-size:10px;color:var(--blue);flex-shrink:0;margin-top:2px;min-width:50px}
+    .sub-text{font-size:11px;color:var(--text-sec);flex:1;word-break:break-word;line-height:1.4}
+    .sub-del{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:14px;padding:0 2px;line-height:1;flex-shrink:0;transition:color .15s}
+    .sub-del:hover{color:var(--red)}
+    /* export */
+    .export-grid{display:flex;flex-direction:column;gap:6px}
+    .export-row{display:flex;gap:6px}
+    .btn-export{flex:1;background:var(--bg-card);border:1px solid var(--border);color:var(--text-sec);padding:8px 0;border-radius:var(--radius);font-family:var(--mono);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+    .btn-export:disabled{opacity:.35;cursor:not-allowed}
+    .btn-export-video:hover:not(:disabled){border-color:var(--blue);color:var(--blue)}
+    .vtt-lang-exports{display:flex;flex-wrap:wrap;gap:5px}
+    .btn-vtt-lang{padding:5px 10px;font-size:10px;background:var(--green-glow);border:1px solid #2a5c3a;color:var(--green);border-radius:var(--radius);font-family:var(--mono);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s}
+    .btn-vtt-lang:hover:not(:disabled){background:rgba(82,201,122,.25);border-color:var(--green)}
+    .btn-vtt-lang:disabled{opacity:.35;cursor:not-allowed}
+    .export-hint{font-family:var(--mono);font-size:10px;color:var(--text-dim);padding:2px 0}
+    /* toast */
+    #toast{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);background:var(--bg-card);border:1px solid var(--border-lit);color:var(--text-pri);font-family:var(--mono);font-size:11px;padding:6px 14px;border-radius:20px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;z-index:999}
+    #toast.show{opacity:1}
+    #connectingOverlay{position:fixed;inset:0;background:rgba(13,14,17,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:500}
+    #connectingOverlay.hidden{display:none}
+    .spinner{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--amber);animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .conn-text{font-family:var(--mono);font-size:12px;color:var(--text-sec)}
+  </style>
+</head>
+<body>
+
+  <div id="connectingOverlay">
+    <div class="spinner"></div>
+    <div class="conn-text">Connessione al background…</div>
+  </div>
+
+  <div class="header">
+    <div class="logo"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+    <div><div class="header-title">TechSnap</div><div class="header-sub">Screen capture + VTT subtitles</div></div>
+    <div class="rec-badge" id="recBadge"><div class="dot"></div><span id="recStatus">IDLE</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Pagina Corrente</div>
+    <div class="info-row"><span class="info-key">TITOLO</span><span class="info-val" id="pageTitle">-</span></div>
+    <div class="info-row"><span class="info-key">URL</span><span class="info-val" id="pageUrl">-</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Privacy</div>
+    <div class="privacy-note">
+      <strong>Raccolta dati:</strong> il tab viene registrato solo quando premi <code>Avvia</code>.<br>
+      URL/titolo pagina, audio/video e sottotitoli sono usati per esportare i file.<br>
+      I dati restano locali nel browser/download. In modalita voce, il riconoscimento dipende dal servizio Web Speech del browser/sistema.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="timer-row">
+      <div class="timer" id="timerDisplay">00:00:00</div>
+      <div class="sub-counter">Sottotitoli totali<span id="subCount">0</span></div>
+    </div>
+    <div class="controls">
+      <button class="btn btn-start" id="btnStart">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Avvia
+      </button>
+      <button class="btn btn-pause" id="btnPause" disabled>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>Pausa
+      </button>
+      <button class="btn btn-stop" id="btnStop" disabled>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h12v12H6z"/></svg>Stop
+      </button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Sottotitoli</div>
+
+    <!-- Riga lingua -->
+    <div class="lang-row">
+      <span class="lang-label">LINGUA:</span>
+      <div id="langTabs"><!-- popolato da JS --></div>
+      <button class="btn-add-lang" id="btnAddLang">+ lingua</button>
+    </div>
+
+    <!-- Riga modalità input -->
+    <div class="mode-row">
+      <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">MODALITÀ INPUT:</span>
+      <div class="mode-switch">
+        <button class="mode-btn keyboard active" id="modeBtnKeyboard">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></svg>
+          Tastiera
+        </button>
+        <button class="mode-btn voice" id="modeBtnVoice">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+          Voce
+        </button>
+      </div>
+    </div>
+
+    <!-- Tastiera -->
+    <div id="modeKeyboard">
+      <textarea id="subtitleText" placeholder="Scrivi la spiegazione per questa parte del tutorial…"></textarea>
+      <div class="sub-kbd-actions">
+        <button class="btn-mark-start" id="btnMarkStart" disabled
+                title="Segna il momento di inizio del sottotitolo (F2)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/>
+            <line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/>
+            <line x1="18" y1="12" x2="22" y2="12"/>
+          </svg>
+          Segna Inizio
+        </button>
+        <button class="btn btn-add-sub" id="btnAddSub" disabled>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+          Aggiungi
+        </button>
+        <span class="shortcut-hint"><kbd>F2</kbd> / <kbd>Ctrl</kbd>+<kbd>↵</kbd></span>
+      </div>
+    </div>
+
+    <!-- Voce -->
+    <div id="modeVoice" style="display:none">
+      <div class="voice-status-box" id="voiceStatusBox">
+        <div class="voice-interim" id="voiceInterim">Premi "Ascolta" per iniziare…</div>
+        <div class="voice-final" id="voiceFinal"></div>
+      </div>
+      <div class="voice-hint" id="voiceHint">Il riconoscimento usa la lingua selezionata sopra. Premi "Aggiungi Testo" per salvare come sottotitolo.</div>
+      <div class="voice-controls">
+        <button class="btn-voice-toggle" id="btnVoiceToggle" disabled>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+          Ascolta
+        </button>
+        <button class="btn-voice-add" id="btnVoiceAdd" disabled>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+          Aggiungi Testo
+        </button>
+      </div>
+    </div>
+
+    <!-- Lista con filtro per lingua -->
+    <div style="margin-top:8px">
+      <div class="sub-list-header">
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">LISTA</span>
+        <div class="sub-lang-filter" id="subLangFilter">
+          <span class="sub-lang-pill active" data-lang="ALL">Tutte</span>
+        </div>
+      </div>
+      <div class="sub-list-wrap" id="subListWrap">
+        <div class="sub-empty" id="subEmpty">Nessun sottotitolo ancora</div>
+        <div id="subList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Esporta</div>
+    <div class="export-grid">
+      <div class="export-row">
+        <button class="btn btn-export btn-export-video" id="btnExportVideo" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Scarica Video (.webm)
+        </button>
+      </div>
+      <div class="vtt-lang-exports" id="vttLangExports">
+        <span class="export-hint">I file VTT per lingua appariranno dopo lo stop.</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+  <script src="webm-fixer.js"></script>
+  <script src="recorder.js"></script>
+</body>
+</html>
