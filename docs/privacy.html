@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechSnap - Privacy Policy</title>
+  <style>
+    :root {
+      --bg: #0a0f16;
+      --panel: #111923;
+      --panel-2: #0d141d;
+      --text: #e7eef8;
+      --muted: #93a2b8;
+      --line: #2a394d;
+      --accent: #22d3ee;
+      --accent-2: #10b981;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(180deg, #0a0f16 0%, #090d13 100%);
+      color: var(--text);
+      font-family: Arial, Verdana, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+    .panel {
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+      border: 1px solid var(--line);
+      border-radius: 0;
+      padding: 14px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    }
+    h1, h2, h3 {
+      margin: 0 0 10px 0;
+      line-height: 1.2;
+      letter-spacing: 0.2px;
+    }
+    h1 { font-size: 22px; color: var(--accent); }
+    h2 {
+      margin-top: 4px;
+      font-size: 16px;
+      color: var(--accent-2);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 6px;
+    }
+    h3 { font-size: 14px; color: #c8d5e8; margin-top: 14px; }
+    p, li { font-size: 14px; margin: 6px 0; }
+    .muted { color: var(--muted); font-size: 12px; }
+    .grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(34, 211, 238, 0.5);
+    }
+    a:hover {
+      color: #67e8f9;
+      border-bottom-color: #67e8f9;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 12px;
+      background: #0a1119;
+      border: 1px solid var(--line);
+      padding: 1px 5px;
+    }
+    ul { padding-left: 20px; margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <h1>TechSnap - Privacy Policy</h1>
+      <p class="muted">Last updated: 2026-04-14</p>
+      <p><a href="index.html">Back to Home</a></p>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Italiano</h2>
+        <h3>Sintesi</h3>
+        <p>TechSnap registra il tab attivo solo dopo azione esplicita dell'utente (Start). L'estensione e progettata per elaborazione locale ed export locale.</p>
+
+        <h3>Dati trattati</h3>
+        <ul>
+          <li>Titolo e URL del tab attivo.</li>
+          <li>Stream audio/video del tab selezionato durante la registrazione.</li>
+          <li>Testo sottotitoli inserito dall'utente (tastiera o dettatura).</li>
+          <li>Stato temporaneo del recorder in <code>chrome.storage.session</code>.</li>
+        </ul>
+
+        <h3>Uso dei dati</h3>
+        <ul>
+          <li>Registrazione tutorial ed export file <code>.webm</code>, <code>.vtt</code>, <code>.srt</code>, <code>.html</code>.</li>
+          <li>Visualizzazione metadati (titolo/url) nell'interfaccia e nei file esportati.</li>
+        </ul>
+
+        <h3>Condivisione e trasferimenti</h3>
+        <ul>
+          <li>Nessun backend proprietario.</li>
+          <li>Nessun invio dati ai server dello sviluppatore.</li>
+          <li>I dati restano nel browser e nella cartella download dell'utente, salvo i servizi piattaforma usati dalle API browser.</li>
+        </ul>
+
+        <h3>Voce e conservazione</h3>
+        <ul>
+          <li>La modalita voce usa Web Speech API: il browser/sistema puo elaborare audio microfono.</li>
+          <li>Lo stato sessione e temporaneo; i file sono salvati solo su richiesta utente.</li>
+          <li>La rimozione estensione elimina i dati locali gestiti da Chrome.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>English</h2>
+        <h3>Summary</h3>
+        <p>TechSnap records the active tab only after explicit user action (Start). The extension is designed for local processing and local export.</p>
+
+        <h3>Data processed</h3>
+        <ul>
+          <li>Active tab title and URL.</li>
+          <li>Audio/video stream of the selected tab during recording.</li>
+          <li>Subtitle text entered by the user (keyboard or voice dictation).</li>
+          <li>Temporary recorder state in <code>chrome.storage.session</code>.</li>
+        </ul>
+
+        <h3>How data is used</h3>
+        <ul>
+          <li>Run core functionality and export <code>.webm</code>, <code>.vtt</code>, <code>.srt</code>, and preview <code>.html</code> files.</li>
+          <li>Show recording metadata (title/url) in the recorder UI and exports.</li>
+        </ul>
+
+        <h3>Data sharing and transfer</h3>
+        <ul>
+          <li>No custom backend is used.</li>
+          <li>No user data is sent to the developer's servers.</li>
+          <li>Data stays in browser context and local downloads, except browser/platform services behind built-in APIs.</li>
+        </ul>
+
+        <h3>Voice and retention</h3>
+        <ul>
+          <li>Voice mode uses Web Speech API; microphone audio may be processed by browser/platform speech services.</li>
+          <li>Session state is temporary; files are saved only on explicit user request.</li>
+          <li>Removing the extension removes extension-local data managed by Chrome.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

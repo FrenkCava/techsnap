@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechSnap - Home</title>
+  <style>
+    :root {
+      --bg: #0a0f16;
+      --panel: #111923;
+      --panel-2: #0d141d;
+      --text: #e7eef8;
+      --muted: #93a2b8;
+      --line: #2a394d;
+      --accent: #22d3ee;
+      --accent-2: #10b981;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      background:
+        linear-gradient(180deg, #0a0f16 0%, #090d13 100%);
+      color: var(--text);
+      font-family: Arial, Verdana, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+    .panel {
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+      border: 1px solid var(--line);
+      border-radius: 0;
+      padding: 14px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    }
+    h1, h2, h3 {
+      margin: 0 0 10px 0;
+      line-height: 1.2;
+      letter-spacing: 0.2px;
+    }
+    h1 {
+      font-size: 22px;
+      color: var(--accent);
+    }
+    h2 {
+      margin-top: 4px;
+      font-size: 16px;
+      color: var(--accent-2);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 6px;
+    }
+    h3 {
+      font-size: 14px;
+      color: #c8d5e8;
+      margin-top: 14px;
+    }
+    p, li {
+      font-size: 14px;
+      color: var(--text);
+      margin: 6px 0;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--line);
+      background: #0b131d;
+      padding: 2px 8px;
+      margin-right: 6px;
+      font-size: 12px;
+      color: #b8c8de;
+    }
+    .grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    code, pre {
+      font-family: Consolas, "Courier New", monospace;
+    }
+    pre {
+      margin: 8px 0;
+      padding: 10px;
+      border: 1px solid var(--line);
+      background: #0a1119;
+      color: #dbe8f8;
+      overflow-x: auto;
+      border-radius: 0;
+      font-size: 12px;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(34, 211, 238, 0.5);
+    }
+    a:hover {
+      color: #67e8f9;
+      border-bottom-color: #67e8f9;
+    }
+    ol, ul { padding-left: 20px; margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <h1>TechSnap - Chrome Extension</h1>
+      <p>Record browser tutorials from the active tab with synchronized multilingual subtitles.</p>
+      <p class="muted">End-user quick guide.</p>
+      <div>
+        <span class="tag">MV3</span>
+        <span class="tag">WebM</span>
+        <span class="tag">VTT / SRT</span>
+      </div>
+      <p><a href="privacy.html">Open Privacy Policy</a></p>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Italiano</h2>
+        <p>TechSnap ti permette di registrare il tab attivo e creare sottotitoli sincronizzati durante la registrazione.</p>
+
+        <h3>Installazione (utente finale)</h3>
+        <ol>
+          <li>Apri la pagina dell'estensione sul Chrome Web Store.</li>
+          <li>Clicca <strong>Aggiungi a Chrome</strong>.</li>
+          <li>Conferma con <strong>Aggiungi estensione</strong>.</li>
+          <li>Fissa l'icona di TechSnap dalla barra estensioni per accesso rapido.</li>
+        </ol>
+
+        <h3>Come si usa</h3>
+        <ol>
+          <li>Apri la pagina/tab che vuoi registrare.</li>
+          <li>Clicca l'icona TechSnap e si apre il pannello recorder.</li>
+          <li>Premi <strong>Avvia</strong> per iniziare la cattura del tab attivo.</li>
+          <li>Durante la registrazione puoi usare <strong>Pausa</strong> e <strong>Riprendi</strong>.</li>
+          <li>Premi <strong>Stop</strong> per terminare.</li>
+          <li>Scarica video e sottotitoli nei formati disponibili.</li>
+        </ol>
+
+        <h3>Sottotitoli - modalita testuale</h3>
+        <ul>
+          <li>Seleziona la lingua attiva (IT/EN/FR/DE/ES/PT/ZH/JA).</li>
+          <li>Opzionale: premi <strong>F2</strong> o "Segna Inizio" per marcare il punto iniziale.</li>
+          <li>Scrivi il testo e premi "Aggiungi Sottotitolo" (oppure <code>Ctrl+Enter</code>).</li>
+        </ul>
+
+        <h3>Sottotitoli - modalita vocale</h3>
+        <ul>
+          <li>Passa alla modalita voce e abilita il microfono quando richiesto.</li>
+          <li>Premi "Ascolta", parla, poi conferma con "Aggiungi Testo".</li>
+          <li>La lingua del riconoscimento segue la lingua attiva selezionata.</li>
+        </ul>
+
+        <h3>Export disponibili</h3>
+        <ul>
+          <li>Video <code>.webm</code>.</li>
+          <li>Sottotitoli <code>.vtt</code> e <code>.srt</code> per ogni lingua con contenuti.</li>
+          <li>Preview <code>.html</code> con player e tracce sottotitoli.</li>
+        </ul>
+
+        <pre><code>ffmpeg -i tutorial.webm -c:v libx264 -c:a aac tutorial.mp4</code></pre>
+      </article>
+
+      <article class="panel">
+        <h2>English</h2>
+        <p>TechSnap lets you record the active tab and create synchronized subtitles while recording.</p>
+
+        <h3>Installation (end users)</h3>
+        <ol>
+          <li>Open the extension page on the Chrome Web Store.</li>
+          <li>Click <strong>Add to Chrome</strong>.</li>
+          <li>Confirm with <strong>Add extension</strong>.</li>
+          <li>Pin the TechSnap icon from the extensions menu for quick access.</li>
+        </ol>
+
+        <h3>How to use</h3>
+        <ol>
+          <li>Open the tab you want to record.</li>
+          <li>Click the TechSnap icon to open the recorder panel.</li>
+          <li>Press <strong>Start</strong> to begin active-tab capture.</li>
+          <li>Use <strong>Pause</strong> and <strong>Resume</strong> as needed.</li>
+          <li>Press <strong>Stop</strong> to finish.</li>
+          <li>Download video and subtitle exports.</li>
+        </ol>
+
+        <h3>Subtitles - text mode</h3>
+        <ul>
+          <li>Select the active subtitle language (IT/EN/FR/DE/ES/PT/ZH/JA).</li>
+          <li>Optional: press <strong>F2</strong> or "Mark Start" to set subtitle start time.</li>
+          <li>Type text and click "Add Subtitle" (or use <code>Ctrl+Enter</code>).</li>
+        </ul>
+
+        <h3>Subtitles - voice mode</h3>
+        <ul>
+          <li>Switch to voice mode and allow microphone access when prompted.</li>
+          <li>Click "Listen", speak, then confirm with "Add Text".</li>
+          <li>Speech recognition language follows the currently selected subtitle language.</li>
+        </ul>
+
+        <h3>Available exports</h3>
+        <ul>
+          <li><code>.webm</code> video.</li>
+          <li><code>.vtt</code> and <code>.srt</code> subtitles per language.</li>
+          <li><code>.html</code> preview page with player and subtitle tracks.</li>
+        </ul>
+
+        <pre><code>&lt;video controls&gt;
+  &lt;source src="tutorial.webm" type="video/webm"&gt;
+  &lt;track kind="subtitles" src="tutorial_subtitles.vtt" srclang="it" label="Italiano" default&gt;
+&lt;/video&gt;</code></pre>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
